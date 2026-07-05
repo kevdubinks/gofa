@@ -14,8 +14,6 @@ npm run dev      # http://localhost:3000
 
 ## À remplacer avant mise en ligne
 
-- `public/assets/wax.svg` est un motif générateur de substitution (couleurs
-  BOFA) — à remplacer par la vraie photo de pagne wax.
 - Les vignettes produits (`photo`) et le bloc `[ photo verger ]` sont des
   emplacements volontaires en attendant les vraies photos.
 
