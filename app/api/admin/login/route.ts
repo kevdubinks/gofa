@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ADMIN_COOKIE_NAME, createSessionToken, safeCompare } from "@/lib/adminSession";
 import { checkRateLimit, getClientKey } from "@/lib/rateLimit";
 import { isSameOrigin } from "@/lib/originCheck";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) {
@@ -21,6 +22,12 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const username = typeof body?.username === "string" ? body.username : "";
   const password = typeof body?.password === "string" ? body.password : "";
+  const captchaToken = typeof body?.captchaToken === "string" ? body.captchaToken : "";
+
+  const captchaOk = await verifyTurnstileToken(captchaToken, clientKey);
+  if (!captchaOk) {
+    return NextResponse.json({ error: "Captcha invalide" }, { status: 400 });
+  }
 
   const [userOk, passOk] = await Promise.all([
     safeCompare(username, process.env.ADMIN_USER ?? ""),

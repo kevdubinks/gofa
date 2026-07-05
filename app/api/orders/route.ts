@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { checkRateLimit, getClientKey } from "@/lib/rateLimit";
 import { isSameOrigin } from "@/lib/originCheck";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 type OrderRequestItem = {
   id: string;
@@ -23,6 +24,13 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json().catch(() => null);
+
+  const captchaToken = typeof body?.captchaToken === "string" ? body.captchaToken : "";
+  const captchaOk = await verifyTurnstileToken(captchaToken, clientKey);
+  if (!captchaOk) {
+    return NextResponse.json({ error: "Captcha invalide" }, { status: 400 });
+  }
+
   const requested: OrderRequestItem[] = Array.isArray(body?.items) ? body.items : [];
 
   const cleaned = requested

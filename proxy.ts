@@ -7,11 +7,15 @@ function generateNonce() {
   return btoa(String.fromCharCode(...bytes));
 }
 
+const TURNSTILE_ORIGIN = "https://challenges.cloudflare.com";
+
 function buildCsp(nonce: string, isDev: boolean) {
-  const connectSrc = isDev ? "'self' ws: http://localhost:*" : "'self'";
+  const connectSrc = isDev
+    ? `'self' ws: http://localhost:* ${TURNSTILE_ORIGIN}`
+    : `'self' ${TURNSTILE_ORIGIN}`;
   const scriptSrc = isDev
-    ? `'self' 'nonce-${nonce}' 'unsafe-eval'`
-    : `'self' 'nonce-${nonce}' 'strict-dynamic'`;
+    ? `'self' 'nonce-${nonce}' 'unsafe-eval' ${TURNSTILE_ORIGIN}`
+    : `'self' 'nonce-${nonce}' 'strict-dynamic' ${TURNSTILE_ORIGIN}`;
 
   return [
     `script-src ${scriptSrc}`,
@@ -19,6 +23,7 @@ function buildCsp(nonce: string, isDev: boolean) {
     "img-src 'self' data:",
     "font-src 'self'",
     `connect-src ${connectSrc}`,
+    `frame-src 'self' ${TURNSTILE_ORIGIN}`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

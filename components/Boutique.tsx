@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Turnstile from "@/components/Turnstile";
 
 export type StoreProduct = {
   id: string;
@@ -24,10 +25,19 @@ function formatFcfa(amount: number) {
   return `${amount.toLocaleString("fr-FR")} FCFA`;
 }
 
-export default function Boutique({ products }: { products: StoreProduct[] }) {
+export default function Boutique({
+  products,
+  nonce,
+  turnstileSiteKey,
+}: {
+  products: StoreProduct[];
+  nonce: string;
+  turnstileSiteKey: string;
+}) {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [cartOpen, setCartOpen] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const productById = new Map(products.map((p) => [p.id, p]));
 
@@ -73,7 +83,7 @@ export default function Boutique({ products }: { products: StoreProduct[] }) {
     fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items }),
+      body: JSON.stringify({ items, captchaToken }),
     }).catch(() => {
       // Le message WhatsApp part de toute façon ; le décompte de stock n'est
       // qu'une approximation et ne doit pas bloquer la commande du client.
@@ -81,6 +91,7 @@ export default function Boutique({ products }: { products: StoreProduct[] }) {
 
     setOrderConfirmed(true);
     setCart({});
+    setCaptchaToken(null);
   };
 
   return (
@@ -236,7 +247,10 @@ export default function Boutique({ products }: { products: StoreProduct[] }) {
               <button
                 type="button"
                 className="orderNewBtn"
-                onClick={() => setOrderConfirmed(false)}
+                onClick={() => {
+                  setOrderConfirmed(false);
+                  setCaptchaToken(null);
+                }}
               >
                 Nouvelle commande
               </button>
@@ -274,15 +288,26 @@ export default function Boutique({ products }: { products: StoreProduct[] }) {
                 <span>Total</span>
                 <span>{formatFcfa(total)}</span>
               </div>
-              <a
-                className="whatsappBtn"
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleOrderClick}
-              >
-                Commander sur WhatsApp
-              </a>
+              {turnstileSiteKey && !captchaToken ? (
+                <div className="cartCaptcha">
+                  <Turnstile
+                    siteKey={turnstileSiteKey}
+                    nonce={nonce}
+                    onVerify={setCaptchaToken}
+                    onExpire={() => setCaptchaToken(null)}
+                  />
+                </div>
+              ) : (
+                <a
+                  className="whatsappBtn"
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleOrderClick}
+                >
+                  Commander sur WhatsApp
+                </a>
+              )}
             </>
           )}
         </div>

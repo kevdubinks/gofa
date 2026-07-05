@@ -1,8 +1,11 @@
+import { headers } from "next/headers";
 import LoginForm from "./LoginForm";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  const nonce = (await headers()).get("x-nonce") ?? "";
+
   return (
     <div className="loginPage">
       <div className="loginCard">
@@ -11,7 +14,10 @@ export default function AdminLoginPage() {
           <span className="loginBadge">BOFA</span>
           <h1 className="loginTitle">Espace Admin</h1>
           <p className="loginSubtitle">Le goût du naturel !</p>
-          <LoginForm />
+          <LoginForm
+            nonce={nonce}
+            turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
+          />
         </div>
       </div>
     </div>

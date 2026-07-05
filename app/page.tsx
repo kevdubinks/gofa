@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { sql } from "@/lib/db";
 import Boutique, { StoreProduct } from "@/components/Boutique";
 
@@ -10,5 +11,13 @@ export default async function Home() {
     ORDER BY id
   `) as unknown as StoreProduct[];
 
-  return <Boutique products={products} />;
+  const nonce = (await headers()).get("x-nonce") ?? "";
+
+  return (
+    <Boutique
+      products={products}
+      nonce={nonce}
+      turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
+    />
+  );
 }
