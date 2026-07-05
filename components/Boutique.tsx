@@ -88,6 +88,18 @@ export default function Boutique() {
         </div>
       </div>
 
+      <div className="waxBand" aria-hidden="true" />
+      <section className="section">
+        <h2 className="sectionTitle">Notre histoire</h2>
+        <p className="sectionSub">tissée main, comme le pagne</p>
+        <p className="aboutText">
+          BOFA, c&apos;est l&apos;histoire d&apos;un jus pressé comme à la
+          maison : des fruits mûris au soleil du Mali, aucun additif, aucun
+          raccourci. Juste le goût du fruit, tel qu&apos;il est — pour
+          retrouver, à chaque gorgée, le naturel d&apos;ici.
+        </p>
+      </section>
+
       <section className="section">
         <h2 className="sectionTitle">Nos produits</h2>
         <p className="sectionSub">choisis avec amour</p>
@@ -123,7 +135,7 @@ export default function Boutique() {
       </section>
 
       <section className="originSection">
-        <div className="originBand" aria-hidden="true" />
+        <div className="waxBand" aria-hidden="true" />
         <div className="originBody">
           <div className="orchardPhoto">[ photo verger ]</div>
           <p className="originText">
@@ -134,9 +146,17 @@ export default function Boutique() {
         </div>
       </section>
 
-      <p className="contact">
-        📞 <strong>(+223) 94 21 17 79</strong> · 79 78 71 63
-      </p>
+      <div className="waxBand" aria-hidden="true" />
+      <footer className="footer">
+        <div className="footerBrand">BOFA</div>
+        <p className="footerTagline">Le goût du naturel !</p>
+        <p className="footerContact">
+          📞 <strong>(+223) 94 21 17 79</strong> · 79 78 71 63
+        </p>
+        <p className="footerCopy">
+          © 2026 BOFA — fabriqué avec fierté au Mali.
+        </p>
+      </footer>
 
       <div className="cartBar">
         <button

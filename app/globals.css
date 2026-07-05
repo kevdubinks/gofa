@@ -302,6 +302,24 @@ a {
   animation: pop 0.25s ease-out;
 }
 
+/* ---------- Wax accent band (reused as a section divider) ---------- */
+
+.waxBand {
+  height: 24px;
+  background-image: url("/assets/wax.webp");
+  background-size: 320% auto;
+}
+
+/* ---------- About ---------- */
+
+.aboutText {
+  font-size: 13.5px;
+  color: #6b5d44;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 46ch;
+}
+
 /* ---------- Origin / verger ---------- */
 
 .originSection {
@@ -310,12 +328,6 @@ a {
   overflow: hidden;
   background: #fff;
   box-shadow: 0 6px 16px rgba(43, 32, 22, 0.06);
-}
-
-.originBand {
-  height: 24px;
-  background-image: url("/assets/wax.webp");
-  background-size: 320% auto;
 }
 
 .originBody {
@@ -342,17 +354,42 @@ a {
   margin: 0;
 }
 
-/* ---------- Contact ---------- */
+/* ---------- Footer ---------- */
 
-.contact {
-  margin: 22px 18px 132px;
+.footer {
+  margin-top: 28px;
+  padding: 26px 18px 142px;
   text-align: center;
-  font-size: 13px;
-  color: #8a7c60;
+  background: var(--green-dark);
+  color: var(--cream);
 }
 
-.contact strong {
-  color: var(--green-dark);
+.footerBrand {
+  font-family: var(--font-baloo);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.footerTagline {
+  font-family: var(--font-caveat);
+  font-size: 18px;
+  margin: 2px 0 14px;
+  color: var(--yellow);
+}
+
+.footerContact {
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+
+.footerContact strong {
+  color: #fff;
+}
+
+.footerCopy {
+  font-size: 11px;
+  color: rgba(255, 249, 238, 0.6);
+  margin: 0;
 }
 
 /* ---------- Cart ---------- */
