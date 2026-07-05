@@ -226,6 +226,18 @@ a {
   flex-direction: column;
   background: #fffaf0;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.productPhoto.hasPhoto {
+  border-style: solid;
+  border-color: #f0e9db;
+  background: #fff;
+}
+
+.productPhotoImg {
+  object-fit: cover;
 }
 
 .productPhoto .emoji {
@@ -300,6 +312,22 @@ a {
   justify-content: center;
   padding: 0 4px;
   animation: pop 0.25s ease-out;
+}
+
+/* ---------- Promo banner ---------- */
+
+.promoSection {
+  margin: 8px 18px 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(43, 32, 22, 0.06);
+  line-height: 0;
+}
+
+.promoImage {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* ---------- Wax accent band (reused as a section divider) ---------- */

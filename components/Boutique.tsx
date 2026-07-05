@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 type Product = {
@@ -8,11 +9,19 @@ type Product = {
   size: string;
   price: number;
   emoji: string;
+  photo?: string;
 };
 
 const PRODUCTS: Product[] = [
   { id: "orange", name: "Jus d'Orange", size: "33 cl", price: 800, emoji: "🍊" },
-  { id: "mangue", name: "Nectar de Mangue", size: "33 cl", price: 800, emoji: "🥭" },
+  {
+    id: "mangue",
+    name: "Nectar de Mangue",
+    size: "33 cl",
+    price: 800,
+    emoji: "🥭",
+    photo: "/assets/mangue.jpg",
+  },
   { id: "douzaine", name: "La Douzaine", size: "12 × 33 cl", price: 9000, emoji: "📦" },
 ];
 
@@ -108,11 +117,23 @@ export default function Boutique() {
             const qty = cart[product.id] ?? 0;
             return (
               <article className="productCard" key={product.id}>
-                <div className="productPhoto">
-                  <span className="emoji" aria-hidden="true">
-                    {product.emoji}
-                  </span>
-                  <span className="label">photo</span>
+                <div className={`productPhoto${product.photo ? " hasPhoto" : ""}`}>
+                  {product.photo ? (
+                    <Image
+                      src={product.photo}
+                      alt={product.name}
+                      fill
+                      sizes="64px"
+                      className="productPhotoImg"
+                    />
+                  ) : (
+                    <>
+                      <span className="emoji" aria-hidden="true">
+                        {product.emoji}
+                      </span>
+                      <span className="label">photo</span>
+                    </>
+                  )}
                 </div>
                 <div className="productInfo">
                   <div className="productName">{product.name}</div>
@@ -132,6 +153,17 @@ export default function Boutique() {
             );
           })}
         </div>
+      </section>
+
+      <section className="promoSection">
+        <Image
+          src="/assets/promo-mangue.jpg"
+          alt="Affiche promotionnelle Nectar de Mangue BOFA"
+          width={720}
+          height={1080}
+          sizes="(max-width: 480px) 100vw, 480px"
+          className="promoImage"
+        />
       </section>
 
       <section className="originSection">
