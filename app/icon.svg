@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="#0E6B34"/>
+  <circle cx="32" cy="30" r="17" fill="#F39200"/>
+  <path d="M32 13 L34 20 L27 20 Z" fill="#3C8A3E"/>
+  <text x="32" y="37" font-family="Baloo 2, Arial, sans-serif" font-weight="700" font-size="18" fill="#FFF9EE" text-anchor="middle">B</text>
+</svg>
