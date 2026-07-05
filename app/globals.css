@@ -274,6 +274,13 @@ a {
   margin-top: 2px;
 }
 
+.outOfStock {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange-dark);
+  margin-top: 2px;
+}
+
 .addBtn {
   position: relative;
   width: 38px;
@@ -294,6 +301,15 @@ a {
 
 .addBtn:active {
   transform: scale(0.9);
+}
+
+.addBtn:disabled {
+  background: #d8cdb8;
+  cursor: not-allowed;
+}
+
+.addBtn:disabled:active {
+  transform: none;
 }
 
 .qtyBadge {
@@ -517,6 +533,28 @@ a {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.orderConfirmed {
+  padding: 18px 20px 22px;
+  text-align: center;
+}
+
+.orderConfirmedText {
+  font-size: 13.5px;
+  color: var(--cream);
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.orderNewBtn {
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: var(--cream);
+  font-size: 13px;
+  cursor: pointer;
+}
+
 /* ---------- Motion ---------- */
 
 @keyframes waxPan {
@@ -568,4 +606,118 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ---------- Admin ---------- */
+
+.adminPage {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  font-family: var(--font-work-sans), system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.adminTitle {
+  font-family: var(--font-baloo);
+  color: var(--green-dark);
+  font-size: 26px;
+  margin: 0 0 24px;
+}
+
+.adminSection {
+  margin-bottom: 40px;
+}
+
+.adminSectionTitle {
+  font-size: 16px;
+  color: var(--green-dark);
+  margin: 0 0 12px;
+}
+
+.adminEmpty {
+  font-size: 13px;
+  color: #948362;
+}
+
+.adminTableWrap {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(43, 32, 22, 0.06);
+}
+
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.adminTable th,
+.adminTable td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #f0e9db;
+  white-space: nowrap;
+}
+
+.adminTable th {
+  color: #948362;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.adminRowLow {
+  background: #fff2ea;
+}
+
+.adminInput {
+  width: 100%;
+  min-width: 90px;
+  padding: 6px 8px;
+  border: 1px solid #e7d9bd;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ink);
+}
+
+.adminInputSmall {
+  min-width: 70px;
+}
+
+.adminLowBadge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.adminSaveBtn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adminSaveBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.adminSavedNote {
+  margin-left: 8px;
+  font-size: 11px;
+  color: var(--green-dark);
 }
