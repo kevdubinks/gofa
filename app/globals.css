@@ -21,7 +21,7 @@ body {
 body {
   font-family: var(--font-work-sans), system-ui, sans-serif;
   color: var(--ink);
-  background: var(--cream);
+  background: #eef3ea;
 }
 
 a {
@@ -33,7 +33,10 @@ a {
 .app {
   min-height: 100dvh;
   width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
   background: var(--cream);
+  box-shadow: 0 0 40px rgba(9, 77, 37, 0.08);
   display: flex;
   flex-direction: column;
   position: relative;
