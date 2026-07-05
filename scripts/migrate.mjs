@@ -24,6 +24,20 @@ async function main() {
     )
   `;
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS rate_limit_events (
+      id bigserial PRIMARY KEY,
+      bucket text NOT NULL,
+      client_key text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS rate_limit_events_lookup
+    ON rate_limit_events (bucket, client_key, created_at)
+  `;
+
   const seed = [
     { id: "orange", name: "Jus d'Orange", size: "33 cl", price: 800, stock: 50, low_stock_threshold: 10, photo: null },
     { id: "mangue", name: "Nectar de Mangue", size: "33 cl", price: 800, stock: 50, low_stock_threshold: 10, photo: "/assets/mangue.jpg" },

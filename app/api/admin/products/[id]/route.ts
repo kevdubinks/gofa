@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
+import { isSameOrigin } from "@/lib/originCheck";
+
+const MAX_PRICE = 10_000_000;
+const MAX_STOCK = 1_000_000;
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!isSameOrigin(request)) {
+    return NextResponse.json({ error: "Origine invalide" }, { status: 403 });
+  }
+
   const { id } = await params;
   const body = await request.json().catch(() => null);
 
@@ -16,11 +24,20 @@ export async function PUT(
 
   if (
     typeof name !== "string" ||
+    name.trim().length === 0 ||
+    name.length > 200 ||
     typeof size !== "string" ||
+    size.length > 100 ||
     !Number.isInteger(price) ||
+    price < 0 ||
+    price > MAX_PRICE ||
     !Number.isInteger(stock) ||
+    stock < 0 ||
+    stock > MAX_STOCK ||
     !Number.isInteger(low_stock_threshold) ||
-    (photo !== null && typeof photo !== "string")
+    low_stock_threshold < 0 ||
+    low_stock_threshold > MAX_STOCK ||
+    (photo !== null && (typeof photo !== "string" || photo.length > 500))
   ) {
     return NextResponse.json({ error: "Champs invalides" }, { status: 400 });
   }

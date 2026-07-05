@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
+import { checkRateLimit, getClientKey } from "@/lib/rateLimit";
+import { isSameOrigin } from "@/lib/originCheck";
 
 type OrderRequestItem = {
   id: string;
@@ -7,6 +9,19 @@ type OrderRequestItem = {
 };
 
 export async function POST(request: NextRequest) {
+  if (!isSameOrigin(request)) {
+    return NextResponse.json({ error: "Origine invalide" }, { status: 403 });
+  }
+
+  const clientKey = getClientKey(request);
+  const { allowed } = await checkRateLimit("orders", clientKey, 10, 10);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Trop de commandes envoyées, réessaie dans quelques minutes." },
+      { status: 429 }
+    );
+  }
+
   const body = await request.json().catch(() => null);
   const requested: OrderRequestItem[] = Array.isArray(body?.items) ? body.items : [];
 
