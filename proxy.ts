@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ADMIN_COOKIE_NAME, verifySessionToken } from "@/lib/adminSession";
 
-export function proxy(request: NextRequest) {
-  const auth = request.headers.get("authorization");
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  if (auth) {
-    const [scheme, encoded] = auth.split(" ");
-    if (scheme === "Basic" && encoded) {
-      const [user, pass] = atob(encoded).split(":");
-      if (user === process.env.ADMIN_USER && pass === process.env.ADMIN_PASSWORD) {
-        return NextResponse.next();
-      }
-    }
+  if (pathname === "/admin/login" || pathname === "/api/admin/login") {
+    return NextResponse.next();
   }
 
-  return new NextResponse("Authentification requise", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="BOFA Admin"' },
-  });
+  const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
+  const authenticated = await verifySessionToken(token);
+
+  if (authenticated) {
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/api/admin")) {
+    return NextResponse.json({ error: "Authentification requise" }, { status: 401 });
+  }
+
+  const loginUrl = new URL("/admin/login", request.url);
+  return NextResponse.redirect(loginUrl);
 }
 
 export const config = {

@@ -110,9 +110,19 @@ export default function AdminDashboard({
   initialProducts: ProductRow[];
   orders: OrderRow[];
 }) {
+  const logout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
+  };
+
   return (
     <div className="adminPage">
-      <h1 className="adminTitle">Admin BOFA</h1>
+      <div className="adminHeader">
+        <h1 className="adminTitle">Admin BOFA</h1>
+        <button type="button" className="adminLogoutBtn" onClick={logout}>
+          Déconnexion
+        </button>
+      </div>
 
       <section className="adminSection">
         <h2 className="adminSectionTitle">Produits &amp; stock</h2>
