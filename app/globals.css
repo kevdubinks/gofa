@@ -76,7 +76,7 @@ a {
   position: relative;
   padding: 28px 22px 70px;
   overflow: hidden;
-  background-image: url("/assets/wax.svg");
+  background-image: url("/assets/wax.webp");
   background-size: 200% auto;
   background-position: 0% 50%;
   animation: waxPan 46s ease-in-out infinite alternate;
@@ -342,7 +342,7 @@ a {
 
 .originBand {
   height: 24px;
-  background-image: url("/assets/wax.svg");
+  background-image: url("/assets/wax.webp");
   background-size: 320% auto;
 }
 
