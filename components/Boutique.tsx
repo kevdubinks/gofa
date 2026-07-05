@@ -54,147 +54,143 @@ export default function Boutique() {
   })();
 
   return (
-    <div className="page">
-      <div className="phone">
-        <div className="screen">
-          <section className="hero">
-            <div className="heroContent">
-              <div className="brandRow">
-                <span className="brandBadge">BOFA</span>
-                <span className="originPill">FABRIQUÉ AU MALI</span>
-              </div>
-              <h1 className="heroTitle">
-                Frais. Naturel.
-                <br />
-                Malien.
-              </h1>
-              <p className="heroTagline">Le goût du naturel !</p>
-            </div>
-            <span className="floatingFruit" aria-hidden="true">
-              🍊
-            </span>
-          </section>
-
-          <div className="statsCard">
-            <div className="statItem">
-              <span className="statLabel">SANS</span>
-              <span className="statSub">colorant</span>
-            </div>
-            <div className="statItem">
-              <span className="statLabel">SANS</span>
-              <span className="statSub">conservateur</span>
-            </div>
-            <div className="statItem">
-              <span className="statLabel">RICHE</span>
-              <span className="statSub">en vitamines</span>
-            </div>
+    <div className="app">
+      <section className="hero">
+        <div className="heroContent">
+          <div className="brandRow">
+            <span className="brandBadge">BOFA</span>
+            <span className="originPill">FABRIQUÉ AU MALI</span>
           </div>
+          <h1 className="heroTitle">
+            Frais. Naturel.
+            <br />
+            Malien.
+          </h1>
+          <p className="heroTagline">Le goût du naturel !</p>
+        </div>
+        <span className="floatingFruit" aria-hidden="true">
+          🍊
+        </span>
+      </section>
 
-          <section className="section">
-            <h2 className="sectionTitle">Nos produits</h2>
-            <p className="sectionSub">choisis avec amour</p>
-            <div className="productList">
-              {PRODUCTS.map((product) => {
-                const qty = cart[product.id] ?? 0;
-                return (
-                  <article className="productCard" key={product.id}>
-                    <div className="productPhoto">
-                      <span className="emoji" aria-hidden="true">
-                        {product.emoji}
-                      </span>
-                      <span className="label">photo</span>
-                    </div>
-                    <div className="productInfo">
-                      <div className="productName">{product.name}</div>
-                      <div className="productSize">{product.size}</div>
-                      <div className="productPrice">{formatFcfa(product.price)}</div>
-                    </div>
+      <div className="statsCard">
+        <div className="statItem">
+          <span className="statLabel">SANS</span>
+          <span className="statSub">colorant</span>
+        </div>
+        <div className="statItem">
+          <span className="statLabel">SANS</span>
+          <span className="statSub">conservateur</span>
+        </div>
+        <div className="statItem">
+          <span className="statLabel">RICHE</span>
+          <span className="statSub">en vitamines</span>
+        </div>
+      </div>
+
+      <section className="section">
+        <h2 className="sectionTitle">Nos produits</h2>
+        <p className="sectionSub">choisis avec amour</p>
+        <div className="productList">
+          {PRODUCTS.map((product) => {
+            const qty = cart[product.id] ?? 0;
+            return (
+              <article className="productCard" key={product.id}>
+                <div className="productPhoto">
+                  <span className="emoji" aria-hidden="true">
+                    {product.emoji}
+                  </span>
+                  <span className="label">photo</span>
+                </div>
+                <div className="productInfo">
+                  <div className="productName">{product.name}</div>
+                  <div className="productSize">{product.size}</div>
+                  <div className="productPrice">{formatFcfa(product.price)}</div>
+                </div>
+                <button
+                  type="button"
+                  className="addBtn"
+                  onClick={() => addToCart(product.id)}
+                  aria-label={`Ajouter ${product.name} au panier`}
+                >
+                  +
+                  {qty > 0 && <span key={qty} className="qtyBadge">{qty}</span>}
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="originSection">
+        <div className="originBand" aria-hidden="true" />
+        <div className="originBody">
+          <div className="orchardPhoto">[ photo verger ]</div>
+          <p className="originText">
+            Nos jus sont pressés à partir de fruits cueillis dans nos vergers
+            au Mali, sans additifs ni conservateurs — juste le fruit, tel
+            qu&apos;il est.
+          </p>
+        </div>
+      </section>
+
+      <p className="contact">
+        📞 <strong>(+223) 94 21 17 79</strong> · 79 78 71 63
+      </p>
+
+      <div className="cartBar">
+        <button
+          type="button"
+          className="cartBarCollapsed"
+          onClick={() => setCartOpen((open) => !open)}
+        >
+          <span>
+            🛒 Panier · {itemCount} article{itemCount > 1 ? "s" : ""}
+          </span>
+          <span>{formatFcfa(total)}</span>
+        </button>
+        <div className={`cartDrawer${cartOpen ? " open" : ""}`}>
+          {itemCount === 0 ? (
+            <p className="emptyCart">Votre panier est vide pour l&apos;instant.</p>
+          ) : (
+            <>
+              {PRODUCTS.filter((p) => (cart[p.id] ?? 0) > 0).map((product) => (
+                <div className="cartLine" key={product.id}>
+                  <span>{product.name}</span>
+                  <div className="qtyControls">
                     <button
                       type="button"
-                      className="addBtn"
-                      onClick={() => addToCart(product.id)}
-                      aria-label={`Ajouter ${product.name} au panier`}
+                      onClick={() => changeQty(product.id, -1)}
+                      aria-label={`Retirer un ${product.name}`}
+                    >
+                      −
+                    </button>
+                    <span>{cart[product.id]}</span>
+                    <button
+                      type="button"
+                      onClick={() => changeQty(product.id, 1)}
+                      aria-label={`Ajouter un ${product.name}`}
                     >
                       +
-                      {qty > 0 && <span key={qty} className="qtyBadge">{qty}</span>}
                     </button>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
-
-          <section className="originSection">
-            <div className="originBand" aria-hidden="true" />
-            <div className="originBody">
-              <div className="orchardPhoto">[ photo verger ]</div>
-              <p className="originText">
-                Nos jus sont pressés à partir de fruits cueillis dans nos vergers
-                au Mali, sans additifs ni conservateurs — juste le fruit, tel
-                qu&apos;il est.
-              </p>
-            </div>
-          </section>
-
-          <p className="contact">
-            📞 <strong>(+223) 94 21 17 79</strong> · 79 78 71 63
-          </p>
-
-          <div className="cartBar">
-            <button
-              type="button"
-              className="cartBarCollapsed"
-              onClick={() => setCartOpen((open) => !open)}
-            >
-              <span>
-                🛒 Panier · {itemCount} article{itemCount > 1 ? "s" : ""}
-              </span>
-              <span>{formatFcfa(total)}</span>
-            </button>
-            <div className={`cartDrawer${cartOpen ? " open" : ""}`}>
-              {itemCount === 0 ? (
-                <p className="emptyCart">Votre panier est vide pour l&apos;instant.</p>
-              ) : (
-                <>
-                  {PRODUCTS.filter((p) => (cart[p.id] ?? 0) > 0).map((product) => (
-                    <div className="cartLine" key={product.id}>
-                      <span>{product.name}</span>
-                      <div className="qtyControls">
-                        <button
-                          type="button"
-                          onClick={() => changeQty(product.id, -1)}
-                          aria-label={`Retirer un ${product.name}`}
-                        >
-                          −
-                        </button>
-                        <span>{cart[product.id]}</span>
-                        <button
-                          type="button"
-                          onClick={() => changeQty(product.id, 1)}
-                          aria-label={`Ajouter un ${product.name}`}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <span>{formatFcfa(product.price * cart[product.id])}</span>
-                    </div>
-                  ))}
-                  <div className="cartTotal">
-                    <span>Total</span>
-                    <span>{formatFcfa(total)}</span>
                   </div>
-                  <a
-                    className="whatsappBtn"
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Commander sur WhatsApp
-                  </a>
-                </>
-              )}
-            </div>
-          </div>
+                  <span>{formatFcfa(product.price * cart[product.id])}</span>
+                </div>
+              ))}
+              <div className="cartTotal">
+                <span>Total</span>
+                <span>{formatFcfa(total)}</span>
+              </div>
+              <a
+                className="whatsappBtn"
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Commander sur WhatsApp
+              </a>
+            </>
+          )}
         </div>
       </div>
     </div>
